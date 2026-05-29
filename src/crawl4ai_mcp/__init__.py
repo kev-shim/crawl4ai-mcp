@@ -30,7 +30,7 @@ RESTORE_CODE_BLOCK_REGEX = re.compile(r'__CODE_BLOCK_(\d+)__')
 import click
 import uvicorn
 import mcp.types as types
-from crawl4ai import AsyncWebCrawler, CrawlerRunConfig
+from crawl4ai import AsyncWebCrawler, CrawlerRunConfig, BrowserConfig
 from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
 from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
 from mcp.server.lowlevel import Server
@@ -284,7 +284,7 @@ async def crawl_and_output_to_markdown(start_url: str,
         config.delay_before_return_html = delay_before_return_html
 
     try:
-        async with AsyncWebCrawler() as crawler:
+        async with AsyncWebCrawler(config=BrowserConfig(verbose=False)) as crawler:
             results = await crawler.arun(start_url, config=config)
             print(f"Crawled {len(results)} pages in total")
             
